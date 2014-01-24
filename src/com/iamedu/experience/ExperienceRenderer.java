@@ -7,8 +7,10 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.iamedu.experience.geometry.ColorQuad;
+import com.iamedu.experience.geometry.TextureQuad;
 import com.iamedu.experience.program.ColorShaderProgram;
 import com.iamedu.experience.program.TextureShaderProgram;
+import com.iamedu.experience.util.TextureHelper;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
@@ -18,14 +20,14 @@ public class ExperienceRenderer implements Renderer {
 	private Context context;
 	
 	private final float[] projectionMatrix = new float[16];
-	private final float[] modelMatrix = new float[16];
 	
 	private ColorShaderProgram colorProgram;
-	private TextureShaderProgram shaderProgram;
-	
-	private float movement = 0.0f;
+	private TextureShaderProgram textureProgram;
 	
 	private ColorQuad colorQuad;
+	private TextureQuad textureQuad;
+	
+	private int texture;
 
 	public ExperienceRenderer(Context context) {
 		this.context = context;
@@ -44,10 +46,7 @@ public class ExperienceRenderer implements Renderer {
 		} else {
 			orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f);
 		}
-		
-		setIdentityM(modelMatrix, 0);
-		translateM(modelMatrix, 0, movement, 0.0f, 0.0f);
-		
+				
 	}
 
 	@Override
@@ -55,9 +54,12 @@ public class ExperienceRenderer implements Renderer {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		
 		colorProgram = new ColorShaderProgram(context);
-		shaderProgram = new TextureShaderProgram(context);
+		textureProgram = new TextureShaderProgram(context);
 		
 		colorQuad = new ColorQuad();
+		textureQuad = new TextureQuad();
+		
+		texture = TextureHelper.loadTexture(context, R.drawable.air_hockey_surface);
 	}
 
 	@Override
@@ -66,10 +68,17 @@ public class ExperienceRenderer implements Renderer {
 		
 		
 		colorProgram.useProgram();
-		colorProgram.setUniforms(projectionMatrix, modelMatrix);
+		colorProgram.setUniforms(projectionMatrix);
 		
 		colorQuad.bindData(colorProgram);
 		colorQuad.draw();
+		
+		
+		textureProgram.useProgram();
+		textureProgram.setUniforms(projectionMatrix, texture);
+		
+		textureQuad.bindData(textureProgram);
+		textureQuad.draw();
 		
 	}
 

@@ -10,9 +10,7 @@ import com.iamedu.experience.R;
 
 public class ColorShaderProgram extends ShaderProgram {
     // Uniform locations
-    private final int uMatrixLocation;
-    private final int uModelLocation;
-    
+    private final int uMatrixLocation;    
     // Attribute locations
     private final int aPositionLocation;
     private final int aColorLocation;
@@ -22,15 +20,14 @@ public class ColorShaderProgram extends ShaderProgram {
             R.raw.simple_fragment_shader);
         // Retrieve uniform locations for the shader program.
         uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
-        uModelLocation = glGetUniformLocation(program, U_MODEL);
         // Retrieve attribute locations for the shader program.
         aPositionLocation = glGetAttribLocation(program, A_POSITION);
         aColorLocation = glGetAttribLocation(program, A_COLOR);
     }
-    public void setUniforms(float[] matrix, float[] model) {
+    public void setUniforms(float[] matrix) {
         // Pass the matrix into the shader program.
         glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0);
-        glUniformMatrix4fv(uModelLocation, 1, false, model, 0);
+        
     }
 
     public int getPositionAttributeLocation() {

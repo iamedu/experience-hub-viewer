@@ -10,6 +10,6 @@ void main()
 {
 	v_Color = a_Color;
 
-	gl_Position = u_Matrix  * u_Model * a_Position;
+	gl_Position = u_Matrix * a_Position;
 	gl_PointSize = 10.0;
 }
