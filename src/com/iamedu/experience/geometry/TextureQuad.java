@@ -20,11 +20,28 @@ public class TextureQuad {
 			-0.5f,  0.5f, 0.0f, 0.0f,
 			0.5f,  -0.5f,  1.0f, 1.0f,
 			0.5f,  0.5f,  1.0f, 0.0f};
+	
+	private static final float[] LARGE_VERTEX_DATA = {
+		// Order of coordinates X, Y, S, T
+		-0.5f, -0.5f, 0.0f, 1.0f,
+		-0.5f,  0.5f, 0.0f, 0.0f,
+		1.0f,  -0.5f,  1.0f, 1.0f,
+		1.0f,  0.5f,  1.0f, 0.0f};
+
 
 	private VertexData vertexData;
 
 	public TextureQuad() {
-		vertexData = new VertexData(VERTEX_DATA);
+		this(false);
+	}
+	
+	public TextureQuad(boolean large) {
+		if(large) {
+			vertexData = new VertexData(LARGE_VERTEX_DATA);
+		} else {
+			vertexData = new VertexData(VERTEX_DATA);
+		}
+		
 	}
 
 	public void bindData(TextureShaderProgram shaderProgram) {

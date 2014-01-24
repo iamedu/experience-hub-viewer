@@ -44,6 +44,7 @@ public class ExperienceActivity extends Activity {
 
         if(supportsEs2) {
         	glSurfaceView.setEGLContextClientVersion(2);
+        	glSurfaceView.setEGLConfigChooser(new MultisampleConfigChooser());
     		glSurfaceView.setRenderer(new ExperienceRenderer(this));
     		rendererSet = true;
     		

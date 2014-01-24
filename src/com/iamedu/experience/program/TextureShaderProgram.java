@@ -15,6 +15,7 @@ import com.iamedu.experience.R;
 public class TextureShaderProgram extends ShaderProgram {
     // Uniform locations
     private final int uMatrixLocation;
+    private final int uModelLocation;
     private final int uTextureUnitLocation;
     
     // Attribute locations
@@ -27,6 +28,7 @@ public class TextureShaderProgram extends ShaderProgram {
 
         // Retrieve uniform locations for the shader program.
         uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
+        uModelLocation = glGetUniformLocation(program, U_MODEL);
         uTextureUnitLocation = glGetUniformLocation(program, U_TEXTURE_UNIT);
         
         // Retrieve attribute locations for the shader program.
@@ -35,9 +37,11 @@ public class TextureShaderProgram extends ShaderProgram {
             glGetAttribLocation(program, A_TEXTURE_COORDINATES);
     }
 
-    public void setUniforms(float[] matrix, int textureId) {
+    public void setUniforms(float[] matrix, float[] modelMatrix, int textureId) {
         // Pass the matrix into the shader program.
         glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0);
+        
+        glUniformMatrix4fv(uModelLocation, 1, false, modelMatrix, 0);
 
         // Set the active texture unit to texture unit 0.
         glActiveTexture(GL_TEXTURE0);
